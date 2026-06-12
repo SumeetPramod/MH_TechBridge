@@ -643,7 +643,7 @@
       box-shadow: 0 14px 28px rgba(37, 99, 216, 0.2);
     }
 
-    .principle h3,
+    .principles h3,
     .card h3,
     .program-card h3 {
       margin-bottom: 5px;
@@ -912,7 +912,7 @@
     .modal-close {
       position: absolute;
       right: 18px;
-      top: 18px;
+top: 18px;
       display: grid;
       width: 42px;
       height: 42px;
@@ -1029,34 +1029,39 @@
       margin-bottom: 24px;
     }
 
-    .app-input-container {
-      display: flex;
+    .app-email-display {
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #ffffff;
-      padding: 6px;
-      gap: 8px;
-      align-items: center;
+      padding: 10px;
+      margin-bottom: 20px;
       box-shadow: var(--soft-shadow);
     }
 
     .app-email-field {
-      flex: 1;
       border: none;
       background: transparent;
-      padding: 8px 10px;
       font-family: "SFMono-Regular", Consolas, monospace;
-      font-size: 0.98rem;
+      font-size: 1rem;
       font-weight: 700;
       color: var(--ink);
       outline: none;
       width: 100%;
+      text-align: center;
     }
 
-    .app-copy-btn {
-      min-height: 38px !important;
-      padding: 6px 16px !important;
-      font-size: 0.86rem !important;
+    .app-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .app-action-btn {
+      min-height: 44px !important;
+      font-size: 0.9rem !important;
+      padding: 8px 12px !important;
+      width: 100%;
     }
 
     .app-copy-status {
@@ -1331,6 +1336,10 @@
 
       .footer-links {
         justify-content: flex-start;
+      }
+
+      .app-modal-actions {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1732,14 +1741,18 @@
       </div>
       
       <div class="app-modal-body">
-        <h3>Copy Contact Info</h3>
-        <p>Our automated app launcher is offline. Copy the address below manually to connect using your webmail application browser tab.</p>
+        <h3>Connect with TechBridge</h3>
+        <p>Choose whether to automatically open your local mail client or grab the email address below to use your browser's webmail application.</p>
         
-        <div class="app-input-container">
+        <div class="app-email-display">
           <input type="text" class="app-email-field" value="mhtechbridge@gmail.com" readonly id="modalEmailField">
-          <button class="button button-primary app-copy-btn" type="button" id="modalCopyBtn">Copy</button>
         </div>
-        <span class="app-copy-status" id="modalCopyFeedback">Select text above or click copy</span>
+
+        <div class="app-modal-actions">
+          <a class="button button-primary app-action-btn" id="modalOpenAppBtn" href="mailto:mhtechbridge@gmail.com">Open Mail App</a>
+          <button class="button button-secondary app-action-btn" type="button" id="modalCopyBtn">Copy Email</button>
+        </div>
+        <span class="app-copy-status" id="modalCopyFeedback">Select an option above</span>
       </div>
 
     </div>
@@ -1809,6 +1822,7 @@
     const emailAppModal = document.getElementById("emailAppModal");
     const emailBridgeBtn = document.getElementById("emailBridgeBtn");
     const appModalClose = emailAppModal.querySelector(".app-modal-close");
+    const modalOpenAppBtn = document.getElementById("modalOpenAppBtn");
     const modalCopyBtn = document.getElementById("modalCopyBtn");
     const modalEmailField = document.getElementById("modalEmailField");
     const modalCopyFeedback = document.getElementById("modalCopyFeedback");
@@ -1816,7 +1830,7 @@
     function closeAppModal() {
       emailAppModal.classList.remove("is-open");
       emailAppModal.setAttribute("aria-hidden", "true");
-      modalCopyFeedback.textContent = "Select text above or click copy";
+      modalCopyFeedback.textContent = "Select an option above";
       modalCopyFeedback.classList.remove("success");
     }
 
@@ -1841,6 +1855,12 @@
       }
     });
 
+    if (modalOpenAppBtn) {
+      modalOpenAppBtn.addEventListener("click", () => {
+        modalCopyFeedback.textContent = "Mail Application didn't launch? Use 'Copy Email' to manually paste the address.";
+  });
+}
+
     if (modalCopyBtn) {
       modalCopyBtn.addEventListener("click", () => {
         modalEmailField.select();
@@ -1850,7 +1870,7 @@
           modalCopyFeedback.textContent = "Address Copied! Ready to Paste. 📋";
           modalCopyFeedback.classList.add("success");
         }).catch(() => {
-          modalCopyFeedback.textContent = "Press Ctrl+C / ⌘+C to copy code configuration";
+          modalCopyFeedback.textContent = "Press Ctrl+C / ⌘+C to copy email profile parameters";
         });
       });
     }
