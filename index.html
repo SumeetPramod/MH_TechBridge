@@ -928,6 +928,150 @@
       box-shadow: 0 14px 30px rgba(23, 44, 78, 0.12);
     }
 
+    /* Custom Terminal Code-Vibe Modal Wrapper Window */
+    .app-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 110;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(7, 27, 56, 0.68);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+    }
+
+    .app-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .app-modal-window {
+      position: relative;
+      width: min(450px, 94vw);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, #ffffff 0%, var(--mist) 100%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform: scale(0.95) translateY(14px);
+      transition: transform 220ms ease;
+    }
+
+    .app-modal.is-open .app-modal-window {
+      transform: scale(1) translateY(0);
+    }
+
+    .app-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #071b38;
+      padding: 14px 18px;
+      color: #ffffff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .app-window-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .app-window-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    .app-window-dots span:nth-child(1) { background: var(--coral); }
+    .app-window-dots span:nth-child(2) { background: var(--gold); }
+    .app-window-dots span:nth-child(3) { background: var(--teal); }
+
+    .app-window-title {
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .app-modal-close {
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.6rem;
+      font-weight: 400;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 150ms ease;
+    }
+
+    .app-modal-close:hover {
+      color: #ffffff;
+    }
+
+    .app-modal-body {
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .app-modal-body h3 {
+      color: var(--ink);
+      margin-bottom: 8px;
+      font-size: 1.35rem;
+    }
+
+    .app-modal-body p {
+      color: var(--text);
+      font-size: 0.94rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .app-input-container {
+      display: flex;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      padding: 6px;
+      gap: 8px;
+      align-items: center;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .app-email-field {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 8px 10px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--ink);
+      outline: none;
+      width: 100%;
+    }
+
+    .app-copy-btn {
+      min-height: 38px !important;
+      padding: 6px 16px !important;
+      font-size: 0.86rem !important;
+    }
+
+    .app-copy-status {
+      display: block;
+      margin-top: 12px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--muted);
+      transition: color 180ms ease;
+    }
+
+    .app-copy-status.success {
+      color: var(--teal);
+    }
+
     .site-footer {
       padding: 36px 0;
       color: #d9e7fb;
@@ -1541,7 +1685,7 @@
               <h3>For parents, students, and volunteers</h3>
               <p>Send a note to learn about future beginner coding sessions, volunteer opportunities, or ways to support TechBridge as it grows.</p>
               <div class="contact-actions">
-                <a class="button button-secondary" href="mailto:mhtechbridge@gmail.com">Email TechBridge</a>
+                <a class="button button-secondary" id="emailBridgeBtn" href="#contact">Email TechBridge</a>
                 <a class="button button-donate" href="https://gofund.me/895f52e4b" target="_blank" rel="noopener">Support the GoFundMe</a>
               </div>
             </div>
@@ -1573,6 +1717,31 @@
       <button class="modal-close" type="button" aria-label="Close expanded photo">×</button>
       <img src="" alt="">
       <div class="modal-caption"></div>
+    </div>
+  </div>
+
+  <div class="app-modal" id="emailAppModal" aria-hidden="true" role="dialog" aria-label="Email Copy Terminal">
+    <div class="app-modal-window">
+      
+      <div class="app-modal-header">
+        <div class="app-window-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="app-window-title">techbridge-mail-terminal.exe</span>
+        <button class="app-modal-close" type="button" aria-label="Close window">×</button>
+      </div>
+      
+      <div class="app-modal-body">
+        <h3>Copy Contact Info</h3>
+        <p>Our automated app launcher is offline. Copy the address below manually to connect using your webmail application browser tab.</p>
+        
+        <div class="app-input-container">
+          <input type="text" class="app-email-field" value="mhtechbridge@gmail.com" readonly id="modalEmailField">
+          <button class="button button-primary app-copy-btn" type="button" id="modalCopyBtn">Copy</button>
+        </div>
+        <span class="app-copy-status" id="modalCopyFeedback">Select text above or click copy</span>
+      </div>
+
     </div>
   </div>
 
@@ -1635,6 +1804,56 @@
         closeImageModal();
       }
     });
+
+    // App Terminal Modal Event Controller Configuration
+    const emailAppModal = document.getElementById("emailAppModal");
+    const emailBridgeBtn = document.getElementById("emailBridgeBtn");
+    const appModalClose = emailAppModal.querySelector(".app-modal-close");
+    const modalCopyBtn = document.getElementById("modalCopyBtn");
+    const modalEmailField = document.getElementById("modalEmailField");
+    const modalCopyFeedback = document.getElementById("modalCopyFeedback");
+
+    function closeAppModal() {
+      emailAppModal.classList.remove("is-open");
+      emailAppModal.setAttribute("aria-hidden", "true");
+      modalCopyFeedback.textContent = "Select text above or click copy";
+      modalCopyFeedback.classList.remove("success");
+    }
+
+    if (emailBridgeBtn) {
+      emailBridgeBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        emailAppModal.classList.add("is-open");
+        emailAppModal.setAttribute("aria-hidden", "false");
+        appModalClose.focus();
+      });
+    }
+
+    appModalClose.addEventListener("click", closeAppModal);
+
+    emailAppModal.addEventListener("click", (event) => {
+      if (event.target === emailAppModal) closeAppModal();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && emailAppModal.classList.contains("is-open")) {
+        closeAppModal();
+      }
+    });
+
+    if (modalCopyBtn) {
+      modalCopyBtn.addEventListener("click", () => {
+        modalEmailField.select();
+        modalEmailField.setSelectionRange(0, 99999);
+
+        navigator.clipboard.writeText(modalEmailField.value).then(() => {
+          modalCopyFeedback.textContent = "Address Copied! Ready to Paste. 📋";
+          modalCopyFeedback.classList.add("success");
+        }).catch(() => {
+          modalCopyFeedback.textContent = "Press Ctrl+C / ⌘+C to copy code configuration";
+        });
+      });
+    }
   </script>
 </body>
 </html>
